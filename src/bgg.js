@@ -4,7 +4,7 @@ const { parseString } = require('xml2js');
 const logger = require('./logger');
 
 const baseUrl = 'http://www.boardgamegeek.com/xmlapi2/';
-
+const bggusername = 'junglejoker';
 
 function removeStrangeRoot(obj) {
   const newObj = { ...obj };
@@ -17,7 +17,7 @@ function removeStrangeRoot(obj) {
 }
 
 const collectionCall = () => request.get({
-  uri: `${baseUrl}collection?username=junglejoker&own=1`,
+  uri: `${baseUrl}collection?username=${bggusername}&own=1`,
   simple: true,
   transform: (body, response) => {
     if (response.statusCode !== 200) {
@@ -70,7 +70,7 @@ function getGameDetails(game) {
 function getGamePlays(game) {
   logger.log(`requesting plays for ${game.name[0]._}`);
   return request.get({
-    uri: `${baseUrl}plays?username=junglejoker&id=${game.objectid}`,
+    uri: `${baseUrl}plays?username=${bggusername}&id=${game.objectid}`,
     simple: true,
     transform: (body, response) => {
       if (response.statusCode !== 200) {
