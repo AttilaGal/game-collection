@@ -1,0 +1,28 @@
+{
+  "name": "least-played",
+  "version": "1.0.0",
+  "description": "check which games in your collection have gone longest without being played",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "./node_modules/.bin/eslint src/*; exit 0",
+    "start": "node src"
+  },
+  "author": "Attila Gal",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^2.3.0",
+    "eslint": "^4.11.0",
+    "moment": "^2.19.2",
+    "node-cron": "^1.2.1",
+    "p-retry": "^1.0.0",
+    "play-sound": "^1.1.1",
+    "request": "^2.83.0",
+    "request-promise-native": "^1.0.5",
+    "xml2js": "^0.4.19"
+  },
+  "devDependencies": {
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0"
+  }
+}
