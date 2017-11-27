@@ -538,3 +538,4 @@ __pycache__/
 # should be stored in the .pubxml.user file.
 
 # End of https://www.gitignore.io/api/node,macos,linux,windows,intellij,notepadpp,sublimetext,monodevelop,visualstudio,visualstudiocode
+.vscode/launch.json
