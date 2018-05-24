@@ -2,6 +2,7 @@ const request = require('request-promise-native');
 const pRetry = require('p-retry');
 const { parseString } = require('xml2js');
 const logger = require('./logger');
+const chalk = require('chalk');
 
 const baseUrl = 'http://www.boardgamegeek.com/xmlapi2/';
 const bggusername = 'junglejoker';
@@ -44,7 +45,8 @@ function getCollection() {
 }
 
 function getGameDetails(game) {
-  logger.log(`requesting details for ${game.name[0]._}`);
+  const logMessage = chalk.green(`requesting details for ${game.name[0]._}`);
+  logger.log(logMessage);
   return request.get({
     uri: `${baseUrl}thing?id=${game.objectid}`,
     simple: true,
@@ -68,7 +70,8 @@ function getGameDetails(game) {
 
 
 function getGamePlays(game) {
-  logger.log(`requesting plays for ${game.name[0]._}`);
+  const logMessage = chalk.cyan(`requesting plays for ${game.name[0]._}`);
+  logger.log(logMessage);
   return request.get({
     uri: `${baseUrl}plays?username=${bggusername}&id=${game.objectid}`,
     simple: true,
