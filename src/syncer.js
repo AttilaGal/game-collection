@@ -1,13 +1,16 @@
 const { getCollection, getGameDetails, getGamePlays } = require('./bgg.js');
 const { read, write, clear } = require('./fileHandler');
 const logger = require('./logger');
-const player = require('./audio/player');
+// const player = require('./audio/player');
 
-async function updateGames(myCollection) {
+let alreadyCleared = false;
+
+async function updateGames(myCollection, stopCron) {
   const gameToUpdate = myCollection.find(g => !g.details || !g.plays);
   if (!gameToUpdate) {
     logger.info('sync complete!');
-    return player.success();
+    stopCron();
+    // return player.success();
   }
   const collectionIndex = myCollection.findIndex(g => g.objectid === gameToUpdate.objectid);
   if (!gameToUpdate.details) {
@@ -21,7 +24,7 @@ async function updateGames(myCollection) {
 }
 
 function retrieveCollectionAndSaveToFile() {
-  getCollection()
+  return getCollection()
     .then(collection => collection.map((g) => {
       g.details = null;
       g.plays = null;
@@ -31,13 +34,14 @@ function retrieveCollectionAndSaveToFile() {
     .catch(err => logger.error(err));
 }
 
-async function bggSync(clearFirst) {
-  if (clearFirst) {
+async function bggSync(clearFirst, stopCron) {
+  if (clearFirst && !alreadyCleared) {
     await clear();
-    return retrieveCollectionAndSaveToFile();
+    return retrieveCollectionAndSaveToFile()
+      .then(() => { alreadyCleared = true; });
   }
   return read()
-    .then(updateGames)
+    .then(res => updateGames(res, stopCron))
     .catch(logger.error);
 }
 
